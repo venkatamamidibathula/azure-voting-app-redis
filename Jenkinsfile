@@ -12,5 +12,22 @@ pipeline {
             sh(script: 'docker compose build')
          }
       }
+      stage ('Run Tests') {
+         steps {
+            sh(script: 'python3 tests/pytests.py')
+         }
+         post {
+         success {
+             echo "Tests passed successfully!"
+         }
+         failure {
+             echo "Tests failed. Please check the logs for details."
+         }
+         always {
+            sh(script: 'docker compose down')
+         }
+      }
+     }
    }
+      
 }
