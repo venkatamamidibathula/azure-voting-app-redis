@@ -32,6 +32,14 @@ pipeline {
                 }
             }
         }
+        stage('Docker Push') {
+            steps {
+                sh '''
+                    echo "Pushing Docker images to registry..."
+                    docker compose push
+                '''
+            }
+        }
     }
     
     post {
