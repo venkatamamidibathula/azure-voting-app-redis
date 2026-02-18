@@ -32,12 +32,19 @@ pipeline {
                 }
             }
         }
+        
         stage('Docker Push') {
             steps {
-                sh '''
-                    echo "Pushing Docker images to registry..."
-                    docker compose push
-                '''
+                echo "Pushing Docker images to registry..."
+                echo "Running in workspace: ${WORKSPACE}"
+                dir('azure-vote') {
+                    script {
+                        docker.withRegistry('', 'dockerhub') {
+                            def image = docker.build("venkatamamidibathula/azurappjenkins:${env.BUILD_NUMBER}")
+                            image.push()
+                        }
+                    }
+                }
             }
         }
     }
