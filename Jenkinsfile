@@ -19,6 +19,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '''
+                    echo "Running tests..."
                     python3 tests/pytests.py
                 '''
             }
